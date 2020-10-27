@@ -3,10 +3,18 @@ let limitWarningEl = document.querySelector("#limit-warning");
 let repoNameEl = document.querySelector("#repo-name");
 
 let getRepoName = function() {
+  //grab repo name from url query string
   let queryString = document.location.search;
   let repoName = queryString.split("=")[1];
-  getRepoIssues(repoName);
-  repoNameEl.textContent = repoName;
+  //check for errors
+  if (repoName) {
+    //display repo name and load issues
+    getRepoIssues(repoName);
+    repoNameEl.textContent = repoName;
+  } else {
+    //if no repo was given, redirect to homepage
+    document.location.replace("./index.html");
+  }
 };
 
 let getRepoIssues = function(repo) {
@@ -24,7 +32,8 @@ let getRepoIssues = function(repo) {
         }
       });
     } else {
-      alert("There was a problem with your request.");
+      //if fetch unsuccessful, redirect to homepage
+      document.location.replace("./index.html");
     }
   });
 };
